@@ -1,7 +1,7 @@
 module.exports = async (req, res) => {
     const {data} = req.body
     try {
-        const [results] = await conn.query('select name from type')
+        const [results] = await conn.query('select name from level')
         
         res.json({
             results: results
