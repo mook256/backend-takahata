@@ -15,6 +15,11 @@ const IT_Repair_TableController = require('./controllers/IT_Repair_TableControll
 const IT_Repair_statusController = require('./controllers/IT_Repair_statusController')
 const Level_ServiceController= require('./controllers/Level_ServiceController')
 const IT_Service_AdminDetailController= require('./controllers/IT_Service_AdminDetailController')
+const IT_Request_SubmitController= require('./controllers/IT_Request_SubmitController')
+const IT_Request_controller = require('./controllers/IT_Request_controller')
+const IT_Request_TableController = require ('./controllers/IT_Request_TableController')
+const IT_Request_AdminDetailController = require ('./controllers/IT_Request_AdminDetailController')
+
 
 
 const corsOptions = {
@@ -29,6 +34,7 @@ app.use(cors(corsOptions));
 
 global.conn = null
 global.num1 = 1
+global.num2 = 1
 // init db
 const initDB = async () => {
     conn = await mysql.createConnection({
@@ -48,6 +54,15 @@ app.post('/api/IT_Repair_data_table', IT_Repair_TableController)
 app.post('/api/IT_Repair_status_choice', IT_Repair_statusController)
 app.post('/api/Level_ServiceController', Level_ServiceController)
 app.post('/api/save_admin_note', IT_Service_AdminDetailController)
+app.post('/api/IT_Request_Submit', IT_Request_SubmitController)
+app.post('/api/IT_Request_controller',IT_Request_controller)
+app.post('/api/IT_Request_TableController',IT_Request_TableController)
+app.post('/api/IT_Request_AdminDetailController',IT_Request_AdminDetailController)
+
+///api/IT_Request_Submit
+
+
+
 // main
 app.listen(process.env.PORT, async () => {
     await initDB()
