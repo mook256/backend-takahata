@@ -22,7 +22,7 @@ let all_choices = ["User Login", "User E-mail", "User Internet", "UserERP&MRP", 
 
 module.exports = async (req, res) => {
     try {
-        const { en, name, section_id, branch, tel, selected_choices, detail_user, detail_file, detail, status, level } = req.body
+        const { en, name, section_id, branch, tel, selected_choices, detail_user, detail_file, detail, status, level, role } = req.body
         //Fetch section name
         const [section_result] = await conn.query('SELECT department.name from department where id = ?', String(section_id))
         const section = section_result[0]
@@ -45,8 +45,8 @@ module.exports = async (req, res) => {
         let erp_mrp_choices = [], file_server_choices = [], installation = [];
 
         let selected = selected_choices;
-
-        for (let i = 0; i < selected.length; i++) {
+        console.log(selected)
+        for (let i = 0; i < selected.length-3; i++) {
             if (selected[i] != 0) {
                 switch (true) {
                     case (i >= 0 && i <= 3):
@@ -94,11 +94,11 @@ module.exports = async (req, res) => {
         console.log(status);
         console.log(level);
         console.log(user_account_choices + ' | ' + hardware_choices + ' | ' + software_license_choices + ' | ' + erp_mrp_choices + ' | ' + file_server_choices + ' | ' + installation);
-
+        console.log(role)
         //Insert data to database request_data
         conn.query(
-            "INSERT INTO request_data1(job_no, en, requester, section, branch, tel, create_date, detail, detail_user, detail_file, status , level, request_approval, user_account, hardware, software_license, erp_mrp, file_server, installation) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ",
-            [job_no, en, name, section.name, branch, tel, date, detail, detail_user, detail_file, status, level, request_approval, user_account_choices, hardware_choices, software_license_choices, erp_mrp_choices, file_server_choices, installation],
+            "INSERT INTO request_data1(job_no, en, requester, section, branch, tel, create_date, detail, detail_user, detail_file, status , level, request_approval, user_account, hardware, software_license, erp_mrp, file_server, installation, role) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ",
+            [job_no, en, name, section.name, branch, tel, date, detail, detail_user, detail_file, status, level, request_approval, user_account_choices, hardware_choices, software_license_choices, erp_mrp_choices, file_server_choices, installation, role],
         )
 
     } catch (error) {
