@@ -16,21 +16,10 @@ function formatDateTime(date) {
     return formattedDateTime;
 }
 
-function formatDateTime1(date1) {
-    const year = date1.getFullYear();
-    const month = (date1.getMonth() + 1).toString().padStart(2, '0');
-    const day = date1.getDate().toString().padStart(2, '0');
-    const hours = date1.getHours().toString().padStart(2, '0');
-    const minutes = date1.getMinutes().toString().padStart(2, '0');
-    const seconds = date1.getSeconds().toString().padStart(2, '0');
-    
-    const formattedDateTime1 = `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
-    return formattedDateTime1;
-}
 
 
 module.exports = async (req, res) =>{
-    try{const {en, name, section_id, branch ,tel, service_type ,catalog_type, detail, status , level , technician , dueby_time } =req.body
+    try{const {en, name, section_id, branch ,tel, service_type ,catalog_type, detail, status , level } =req.body
         const [section_result] = await conn.query('SELECT department.name from department where id = ?', String(section_id))
         const section = section_result[0]
 
@@ -44,7 +33,7 @@ module.exports = async (req, res) =>{
         //Date time generate
         const currentDate = new Date();
         const date = formatDateTime(currentDate);
-        const date1 = formatDateTime1(currentDate);
+
 
         //Print output
         console.log(job_no);
@@ -54,19 +43,23 @@ module.exports = async (req, res) =>{
         console.log(branch);
         console.log(tel);
         console.log(date);
-        console.log(date1);
+        console.log(service_type);     
         console.log(catalog_type);
-        console.log(service_type);
         console.log(detail);
-        console.log(technician);
-        console.log(dueby_time);
-
+        console.log( status);
+        console.log(level);
+     
 
         //Insert data to database
         conn.query(
-            "INSERT INTO services_data(job_no, en, requester,section,branch, tel, create_date,  service_type ,catalog_type, detail, status , level , technician , dueby_time ) VALUES(?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?,?,?,?) ", 
-            [job_no, en, name, section.name, branch ,tel, date, service_type ,catalog_type, detail, status , level , technician , date1 ],
+            "INSERT INTO services_data(job_no, en, requester,section,branch, tel, create_date,  service_type ,catalog_type, detail, status , level) VALUES( ?, ?, ?, ?, ?, ?, ?,?, ?, ?,?,?) ", 
+            [job_no, en, name, section.name, branch ,tel, date, service_type ,catalog_type, detail, status , level ],
         )
+
+       /* conn.query(
+            "INSERT INTO services_data(job_no, en, requester,section,branch, tel, create_date,  service_type ,catalog_type, detail, status , level ,) VALUES( ?, ?, ?, ?, ?, ?, ?,?, ?, ?,?,?) ", 
+            [job_no, en, name, section.name, branch ,tel, date, service_type ,catalog_type, detail, status , level ],
+        )*/
 
     } catch (error){
         res.status(500).json({
