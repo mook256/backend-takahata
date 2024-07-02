@@ -4,8 +4,7 @@ module.exports = async (req , res) =>{
         console.log(job_no)
         console.log(admin_note)
         conn.query('UPDATE services_data SET detail_admin = ? WHERE job_no =?',[String(admin_note),job_no])
-    
-
+        conn.query('UPDATE report SET detail_admin = ? WHERE job_no =?',[String(admin_note),job_no])
 
     }
     catch (error){

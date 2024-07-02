@@ -4,13 +4,13 @@ module.exports = async (req, res) =>{
         const {topic} = req.body
         let results;
         if(topic == "IT-Service"){
-            const [q_results] = await conn.query('SELECT * FROM report_group_by WHERE id IN (1, 2, 3, 4, 5, 6, 7, 8) ')
+            const [q_results] = await conn.query('SELECT * FROM report_group_by WHERE id IN (1, 2, 3, 4, 5, 6, 7, 8, 12) ')
             results = q_results
         }else if(topic == "IT-Request"){
-            const [q_results] = await conn.query('SELECT * FROM report_group_by WHERE id IN (9, 1, 11, 3, 4, 10) ORDER BY FIELD(id, 9, 1, 11, 3, 4, 10) ')
+            const [q_results] = await conn.query('SELECT * FROM report_group_by WHERE id IN (9, 1, 11, 3, 4, 10, 12) ORDER BY FIELD(id, 9, 1, 11, 3, 4, 10, 12) ')
             results = q_results            
         }else if(topic == "Select All"){
-            const [q_results] = await conn.query('SELECT * FROM report_group_by WHERE id IN (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11) ')
+            const [q_results] = await conn.query('SELECT * FROM report_group_by WHERE id IN (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12) ')
             results = q_results   
         }
         else{

@@ -19,7 +19,7 @@ function formatDateTime(date) {
 
 
 module.exports = async (req, res) =>{
-    try{const {en, name, section_id, branch ,tel, service_type ,catalog_type, detail, status , level } =req.body
+    try{const {en, name, section_id, branch ,tel, service_type ,catalog_type, detail, status , level  } =req.body
         const [section_result] = await conn.query('SELECT department.name from department where id = ?', String(section_id))
         const section = section_result[0]
 
@@ -48,18 +48,19 @@ module.exports = async (req, res) =>{
         console.log(detail);
         console.log( status);
         console.log(level);
-     
+    
 
-        //Insert data to database
+        //Insert data to database services_data
         conn.query(
-            "INSERT INTO services_data(job_no, en, requester,section,branch, tel, create_date,  service_type ,catalog_type, detail, status , level) VALUES( ?, ?, ?, ?, ?, ?, ?,?, ?, ?,?,?) ", 
+            "INSERT INTO services_data(job_no, en, requester,section,branch, tel, create_date,  service_type ,catalog_type, detail, status , level , detail_admin) VALUES(?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?,?,?) ", 
+            [job_no, en, name, section.name, branch ,tel, date, service_type ,catalog_type, detail, status , level, '' ],
+        )
+        //Insert data to database report
+        conn.query(
+            "INSERT INTO report(job_no, en, requester,section,branch, tel, create_date,  service_type ,catalog_type, detail, status , level , detail_admin) VALUES( ?,?, ?, ?, ?, ?, ?, ?,?, ?, ?,?) ", 
             [job_no, en, name, section.name, branch ,tel, date, service_type ,catalog_type, detail, status , level ],
         )
-
-       /* conn.query(
-            "INSERT INTO services_data(job_no, en, requester,section,branch, tel, create_date,  service_type ,catalog_type, detail, status , level ,) VALUES( ?, ?, ?, ?, ?, ?, ?,?, ?, ?,?,?) ", 
-            [job_no, en, name, section.name, branch ,tel, date, service_type ,catalog_type, detail, status , level ],
-        )*/
+   
 
     } catch (error){
         res.status(500).json({

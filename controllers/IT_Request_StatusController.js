@@ -19,18 +19,23 @@ module.exports = async (req, res) => {
         if (String(data) == 'Wait' || String(data) == 'Open' || String(data) == 'Close' || String(data) == 'In Process'){
             console.log(data)
             conn.query('UPDATE request_data1 SET status = ? WHERE job_no = ?', [String(data), job_no])
+            conn.query('UPDATE report SET status = ? WHERE job_no = ?', [String(data), job_no])
             if(String(data) == 'Close'){
                 console.log(admin_name,data)
                 conn.query('UPDATE request_data1 SET technician = ? WHERE status = ? AND job_no = ?', [String(admin_name), data, job_no])
+                conn.query('UPDATE report SET technician = ? WHERE status = ? AND job_no = ?', [String(admin_name), data, job_no])
                 //Date time generate
                 const currentDate = new Date();
                 const date = formatDateTime(currentDate);
                 conn.query('UPDATE request_data1 SET closed_date = ? WHERE status = ? AND job_no = ?', [String(date), data, job_no])
+                conn.query('UPDATE report SET closed_date = ? WHERE status = ? AND job_no = ?', [String(date), data, job_no])
             }
             else{
                 console.log("Not close")
                 conn.query('UPDATE request_data1 SET technician = ? WHERE job_no = ?', ['', job_no])
                 conn.query('UPDATE request_data1 SET closed_date = ? WHERE job_no = ?', ['', job_no])
+                conn.query('UPDATE report SET technician = ? WHERE job_no = ?', ['', job_no])
+                conn.query('UPDATE report SET closed_date = ? WHERE job_no = ?', ['', job_no])
             }
         }else{
             console.log("wrong")//ข้อความที่เลือกไม่ตรงกับตัวเลือกเงื่อนไขข้างบน

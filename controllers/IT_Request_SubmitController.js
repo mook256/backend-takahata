@@ -22,7 +22,7 @@ let all_choices = ["User Login", "User E-mail", "User Internet", "UserERP&MRP", 
 
 module.exports = async (req, res) => {
     try {
-        const { en, name, section_id, branch, tel, selected_choices, detail_user, detail_file, detail, status, level, role } = req.body
+        const { en, name, section_id, branch, tel, selected_choices, detail_user, detail_file, detail, status, level, role , e_mail} = req.body
         //Fetch section name
         const [section_result] = await conn.query('SELECT department.name from department where id = ?', String(section_id))
         const section = section_result[0]
@@ -94,13 +94,20 @@ module.exports = async (req, res) => {
         console.log(status);
         console.log(level);
         console.log(user_account_choices + ' | ' + hardware_choices + ' | ' + software_license_choices + ' | ' + erp_mrp_choices + ' | ' + file_server_choices + ' | ' + installation);
-        console.log(role)
+        console.log(role);
+        console.log(e_mail);
         //Insert data to database request_data
         conn.query(
-            "INSERT INTO request_data1(job_no, en, requester, section, branch, tel, create_date, detail, detail_user, detail_file, status , level, request_approval, user_account, hardware, software_license, erp_mrp, file_server, installation, role) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ",
-            [job_no, en, name, section.name, branch, tel, date, detail, detail_user, detail_file, status, level, request_approval, user_account_choices, hardware_choices, software_license_choices, erp_mrp_choices, file_server_choices, installation, role],
+            "INSERT INTO request_data1(job_no, en, requester, section, branch, tel, create_date, detail, detail_user, detail_file, status , level, request_approval, user_account, hardware, software_license, erp_mrp, file_server, installation, role ,e_mail) VALUES(?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ",
+            [job_no, en, name, section.name, branch, tel, date, detail, detail_user, detail_file, status, level, request_approval, user_account_choices, hardware_choices, software_license_choices, erp_mrp_choices, file_server_choices, installation, role ,e_mail],
+        )
+        //Insert data to database report
+        conn.query(
+            "INSERT INTO report(job_no, en, requester, section, branch, tel, create_date, detail, detail_user, detail_file, status, level, request_approval, user_account, hardware, software_license, erp_mrp, file_server, installation, role,e_mail) VALUES(?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ",
+            [job_no, en, name, section.name, branch, tel, date, detail, detail_user, detail_file, status, level, request_approval, user_account_choices, hardware_choices, software_license_choices, erp_mrp_choices, file_server_choices, installation, role ,e_mail],
         )
 
+        
     } catch (error) {
         res.status(500).json({
             message: "Server Error",

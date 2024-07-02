@@ -24,7 +24,10 @@ const IT_Request_ManagerDetailController = require ('./controllers/IT_Request_Ma
 const IT_Request_TableAdminController = require('./controllers/IT_Request_TableAdminController')
 const IT_Request_TableController = require('./controllers/IT_Request_TableController')
 const Report_GroupbyController = require('./controllers/Report_GroupbyController')
-
+const IT_Report_TableController = require('./controllers/IT_Report_TableController')
+const register = require('./controllers/register')
+const EmployeeTable = require('./controllers/EmployeeTable')
+const EmployeeUpdateController = require('./controllers/EmployeeUpdateController')
 
 const corsOptions = {
     origin: 'http://localhost:3000',
@@ -67,6 +70,11 @@ app.post('/api/IT_Request_ManagerDetailController',IT_Request_ManagerDetailContr
 app.post('/api/IT_Request_TableAdminController',IT_Request_TableAdminController)
 app.post('/api/IT_Request_TableController',IT_Request_TableController)
 app.post('/api/Report_GroupbyController',Report_GroupbyController)
+app.post('/api/IT_Report_TableController',IT_Report_TableController)
+app.post('/api/register',register)
+app.post('/api/EmployeeTable',EmployeeTable)
+app.post('/api/EmployeeUpdateController',EmployeeUpdateController)
+
 ///api/IT_Request_Submit
 
 

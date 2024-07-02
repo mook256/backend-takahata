@@ -3,7 +3,7 @@ module.exports = async (req, res) => {
     //console.log(type)
     try {
         const [results] = await conn.query('SELECT resource.name FROM resource JOIN type ON resource.type = type.id WHERE type.name = ?', String(type))
-        
+        // type.e_mail
         res.json({
             results: results
         })
